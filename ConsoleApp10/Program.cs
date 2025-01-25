@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace ConsoleApp10
 {
 
-    public abstract class Device
+    public abstract class MusicalInstrument
     {
         public string Name { get; set; }
 
-        public Device(string name)
+        public MusicalInstrument(string name)
         {
             Name = name;
         }
@@ -19,69 +19,90 @@ namespace ConsoleApp10
         public abstract void Sound();
         public void Show()
         {
-            Console.WriteLine($"Device: {Name}");
+            Console.WriteLine($"Instrument: {Name}");
         }
 
         public abstract void Desc();
+        public abstract void History();
     }
 
-    public class Kettle : Device
+    public class Violin : MusicalInstrument
     {
-        public Kettle() : base("Kettle") { }
+        public Violin() : base("Violin") { }
 
         public override void Sound()
         {
-            Console.WriteLine("Kettle is boiling...");
+            Console.WriteLine("Violin plays a beautiful melody.");
         }
 
         public override void Desc()
         {
-            Console.WriteLine("A kettle is used to boil water.");
+            Console.WriteLine("A violin is a string instrument played with a bow.");
+        }
+
+        public override void History()
+        {
+            Console.WriteLine("The violin dates back to the early 16th century in Italy.");
         }
     }
 
-    public class Microwave : Device
+    public class Trombone : MusicalInstrument
     {
-        public Microwave() : base("Microwave") { }
+        public Trombone() : base("Trombone") { }
 
         public override void Sound()
         {
-            Console.WriteLine("Microwave is beeping...");
+            Console.WriteLine("Trombone plays a deep, sliding sound.");
         }
 
         public override void Desc()
         {
-            Console.WriteLine("A microwave is used to heat food.");
+            Console.WriteLine("A trombone is a brass instrument with a telescoping slide.");
+        }
+
+        public override void History()
+        {
+            Console.WriteLine("The trombone evolved in the 15th century in Europe.");
         }
     }
 
-    public class Car : Device
+    public class Ukulele : MusicalInstrument
     {
-        public Car() : base("Car") { }
+        public Ukulele() : base("Ukulele") { }
 
         public override void Sound()
         {
-            Console.WriteLine("Car engine is running...");
+            Console.WriteLine("Ukulele plays a cheerful, plucky tune.");
         }
 
         public override void Desc()
         {
-            Console.WriteLine("A car is used for personal transportation.");
+            Console.WriteLine("The ukulele is a small four-stringed Hawaiian instrument.");
+        }
+
+        public override void History()
+        {
+            Console.WriteLine("The ukulele was brought to Hawaii by Portuguese immigrants in the 19th century.");
         }
     }
 
-    public class Steamboat : Device
+    public class Cello : MusicalInstrument
     {
-        public Steamboat() : base("Steamboat") { }
+        public Cello() : base("Cello") { }
 
         public override void Sound()
         {
-            Console.WriteLine("Steamboat whistle sounds...");
+            Console.WriteLine("Cello plays a rich and deep tone.");
         }
 
         public override void Desc()
         {
-            Console.WriteLine("A steamboat is used for traveling on water.");
+            Console.WriteLine("The cello is a large string instrument played with a bow.");
+        }
+
+        public override void History()
+        {
+            Console.WriteLine("The cello evolved in the 16th century in Italy.");
         }
     }
 
@@ -89,19 +110,20 @@ namespace ConsoleApp10
     {
         public static void Main()
         {
-            Device[] devices = new Device[]
+            MusicalInstrument[] instruments = new MusicalInstrument[]
             {
-            new Kettle(),
-            new Microwave(),
-            new Car(),
-            new Steamboat()
+            new Violin(),
+            new Trombone(),
+            new Ukulele(),
+            new Cello()
             };
 
-            foreach (var device in devices)
+            foreach (var instrument in instruments)
             {
-                device.Show();
-                device.Desc();
-                device.Sound();
+                instrument.Show();
+                instrument.Desc();
+                instrument.History();
+                instrument.Sound();
                 Console.WriteLine();
             }
         }
