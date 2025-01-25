@@ -6,102 +6,91 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp10
 {
-    public class Animal
+    public abstract class Figure
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public string Habitat { get; set; }
-        public Animal(string name, int age, string habitat)
-        {
-            Name = name;
-            Age = age;
-            Habitat = habitat;
-        }
-        public virtual void DisplayInfo()
-        {
-            Console.WriteLine($"Name: {Name}");
-            Console.WriteLine($"Age: {Age} years");
-            Console.WriteLine($"Habitat: {Habitat}");
-        }
-        public virtual void MakeSound()
-        {
-            Console.WriteLine($"{Name} makes a sound.");
-        }
+        public abstract double CalculateArea();
     }
-    public class Tiger : Animal
+    public class Rectangle : Figure
     {
-        public string FurColor { get; set; }
-        public Tiger(string name, int age, string habitat, string furColor)
-            : base(name, age, habitat)
+        public double Width { get; set; }
+        public double Height { get; set; }
+
+        public Rectangle(double width, double height)
         {
-            FurColor = furColor;
+            Width = width;
+            Height = height;
         }
 
-        public override void DisplayInfo()
+        public override double CalculateArea()
         {
-            base.DisplayInfo();
-            Console.WriteLine($"Fur Color: {FurColor}");
+            return Width * Height;
+        }
+    }
+    public class Circle : Figure
+    {
+        public double Radius { get; set; }
+
+        public Circle(double radius)
+        {
+            Radius = radius;
         }
 
-        public override void MakeSound()
+        public override double CalculateArea()
         {
-            Console.WriteLine($"{Name} roars!");
+            return Math.PI * Math.Pow(Radius, 2);
         }
     }
-    public class Crocodile : Animal
+    public class RightTriangle : Figure
     {
-        public int Length { get; set; }
-        public Crocodile(string name, int age, string habitat, int length)
-            : base(name, age, habitat)
+        public double Base { get; set; }
+        public double Height { get; set; }
+
+        public RightTriangle(double baseLength, double height)
         {
-            Length = length;
+            Base = baseLength;
+            Height = height;
         }
-        public override void DisplayInfo()
+
+        public override double CalculateArea()
         {
-            base.DisplayInfo();
-            Console.WriteLine($"Length: {Length} meters");
-        }
-        public override void MakeSound()
-        {
-            Console.WriteLine($"{Name} growls!");
+            return 0.5 * Base * Height;
         }
     }
-    public class Kangaroo : Animal
+    public class Trapezoid : Figure
     {
-        public double JumpHeight { get; set; }
-        public Kangaroo(string name, int age, string habitat, double jumpHeight)
-            : base(name, age, habitat)
+        public double Base1 { get; set; }
+        public double Base2 { get; set; }
+        public double Height { get; set; }
+
+        public Trapezoid(double base1, double base2, double height)
         {
-            JumpHeight = jumpHeight;
+            Base1 = base1;
+            Base2 = base2;
+            Height = height;
         }
-        public override void DisplayInfo()
+
+        public override double CalculateArea()
         {
-            base.DisplayInfo();
-            Console.WriteLine($"Jump Height: {JumpHeight} meters");
-        }
-        public override void MakeSound()
-        {
-            Console.WriteLine($"{Name} makes a boing sound!");
+            return 0.5 * (Base1 + Base2) * Height;
         }
     }
+
     public class Program
     {
         public static void Main(string[] args)
         {
-            Tiger tiger = new Tiger("Sher Khan", 5, "Jungle", "Orange with black stripes");
-            Crocodile crocodile = new Crocodile("Gator", 8, "Swamp", 5);
-            Kangaroo kangaroo = new Kangaroo("Kenny", 3, "Australian Outback", 3.5);
-            Console.WriteLine("Tiger Info:");
-            tiger.DisplayInfo();
-            tiger.MakeSound();
-            Console.WriteLine();
-            Console.WriteLine("Crocodile Info:");
-            crocodile.DisplayInfo();
-            crocodile.MakeSound();
-            Console.WriteLine();
-            Console.WriteLine("Kangaroo Info:");
-            kangaroo.DisplayInfo();
-            kangaroo.MakeSound();
+            Figure[] figures = new Figure[]
+            {
+            new Rectangle(5, 3),
+            new Circle(4),
+            new RightTriangle(6, 4),
+            new Trapezoid(5, 7, 3)
+            };
+
+            foreach (var figure in figures)
+            {
+                Console.WriteLine($"Area: {figure.CalculateArea()}");
+            }
         }
     }
 }
