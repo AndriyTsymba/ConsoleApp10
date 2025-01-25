@@ -6,91 +6,75 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp10
 {
-    public abstract class Figure
+    public class Money
     {
-        public abstract double CalculateArea();
-    }
-    public class Rectangle : Figure
-    {
-        public double Width { get; set; }
-        public double Height { get; set; }
+        public int Dollars { get; set; }
+        public int Cents { get; set; }
 
-        public Rectangle(double width, double height)
+        public Money(int dollars, int cents)
         {
-            Width = width;
-            Height = height;
+            Dollars = dollars;
+            Cents = cents;
+            NormalizeMoney();
         }
 
-        public override double CalculateArea()
+        private void NormalizeMoney()
         {
-            return Width * Height;
-        }
-    }
-    public class Circle : Figure
-    {
-        public double Radius { get; set; }
-
-        public Circle(double radius)
-        {
-            Radius = radius;
+            if (Cents >= 100)
+            {
+                Dollars += Cents / 100;
+                Cents %= 100;
+            }
         }
 
-        public override double CalculateArea()
+        public void SetAmount(int dollars, int cents)
         {
-            return Math.PI * Math.Pow(Radius, 2);
-        }
-    }
-    public class RightTriangle : Figure
-    {
-        public double Base { get; set; }
-        public double Height { get; set; }
-
-        public RightTriangle(double baseLength, double height)
-        {
-            Base = baseLength;
-            Height = height;
+            Dollars = dollars;
+            Cents = cents;
+            NormalizeMoney();
         }
 
-        public override double CalculateArea()
+        public void DisplayAmount()
         {
-            return 0.5 * Base * Height;
+            Console.WriteLine($"Amount: {Dollars} dollars and {Cents} cents");
         }
     }
-    public class Trapezoid : Figure
+    public class Product
     {
-        public double Base1 { get; set; }
-        public double Base2 { get; set; }
-        public double Height { get; set; }
+        public string Name { get; set; }
+        public Money Price { get; set; }
 
-        public Trapezoid(double base1, double base2, double height)
+        public Product(string name, Money price)
         {
-            Base1 = base1;
-            Base2 = base2;
-            Height = height;
+            Name = name;
+            Price = price;
+        }
+        public void ReducePrice(int dollars, int cents)
+        {
+            Money discount = new Money(dollars, cents);
+            int totalCents = (Price.Dollars * 100 + Price.Cents) - (discount.Dollars * 100 + discount.Cents);
+            Price.SetAmount(totalCents / 100, totalCents % 100);
         }
 
-        public override double CalculateArea()
+        public void DisplayProduct()
         {
-            return 0.5 * (Base1 + Base2) * Height;
+            Console.WriteLine($"Product: {Name}");
+            Price.DisplayAmount();
         }
     }
 
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            Figure[] figures = new Figure[]
-            {
-            new Rectangle(5, 3),
-            new Circle(4),
-            new RightTriangle(6, 4),
-            new Trapezoid(5, 7, 3)
-            };
+            Money money = new Money(10, 50);
+            Product product = new Product("Laptop", money);
 
-            foreach (var figure in figures)
-            {
-                Console.WriteLine($"Area: {figure.CalculateArea()}");
-            }
+            product.DisplayProduct();
+
+            Console.WriteLine("\nReducing the price by 2 dollars and 50 cents...");
+            product.ReducePrice(2, 50);
+            product.DisplayProduct();
         }
     }
 }
