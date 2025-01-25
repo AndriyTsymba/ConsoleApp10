@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp10
 {
-
     public abstract class MusicalInstrument
     {
         public string Name { get; set; }
