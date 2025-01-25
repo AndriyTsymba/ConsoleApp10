@@ -6,82 +6,66 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp10
 {
-    public class Human
+    public class Passport
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public string Gender { get; set; }
-        public Human(string name, int age, string gender)
+        public string PassportNumber { get; set; }
+        public string FullName { get; set; }
+        public string DateOfBirth { get; set; }
+        public string Citizenship { get; set; }
+        public Passport(string passportNumber, string fullName, string dateOfBirth, string citizenship)
         {
-            Name = name;
-            Age = age;
-            Gender = gender;
+            PassportNumber = passportNumber;
+            FullName = fullName;
+            DateOfBirth = dateOfBirth;
+            Citizenship = citizenship;
         }
         public virtual void DisplayInfo()
         {
-            Console.WriteLine($"Name: {Name}, Age: {Age}, Gender: {Gender}");
+            Console.WriteLine("Passport Information:");
+            Console.WriteLine($"Passport Number: {PassportNumber}");
+            Console.WriteLine($"Full Name: {FullName}");
+            Console.WriteLine($"Date of Birth: {DateOfBirth}");
+            Console.WriteLine($"Citizenship: {Citizenship}");
         }
     }
-    public class Builder : Human
+    public class ForeignPassport : Passport
     {
-        public string Specialty { get; set; }
-        public Builder(string name, int age, string gender, string specialty)
-            : base(name, age, gender)
+        public string ForeignPassportNumber { get; set; }
+        public List<string> Visas { get; set; }
+        public ForeignPassport(string passportNumber, string fullName, string dateOfBirth, string citizenship, string foreignPassportNumber)
+            : base(passportNumber, fullName, dateOfBirth, citizenship)
         {
-            Specialty = specialty;
+            ForeignPassportNumber = foreignPassportNumber;
+            Visas = new List<string>();
+        }
+        public void AddVisa(string visa)
+        {
+            Visas.Add(visa);
         }
         public override void DisplayInfo()
         {
             base.DisplayInfo();
-            Console.WriteLine($"Specialty: {Specialty}");
-        }
-    }
-    public class Sailor : Human
-    {
-        public string Rank { get; set; }
-        public Sailor(string name, int age, string gender, string rank)
-            : base(name, age, gender)
-        {
-            Rank = rank;
-        }
-        public override void DisplayInfo()
-        {
-            base.DisplayInfo();
-            Console.WriteLine($"Rank: {Rank}");
-        }
-    }
-    public class Pilot : Human
-    {
-        public string AircraftType { get; set; }
-        public Pilot(string name, int age, string gender, string aircraftType)
-            : base(name, age, gender)
-        {
-            AircraftType = aircraftType;
-        }
-        public override void DisplayInfo()
-        {
-            base.DisplayInfo();
-            Console.WriteLine($"Aircraft Type: {AircraftType}");
+            Console.WriteLine($"Foreign Passport Number: {ForeignPassportNumber}");
+            Console.WriteLine("Visas:");
+            foreach (var visa in Visas)
+            {
+                Console.WriteLine($" - {visa}");
+            }
         }
     }
     public class Program
     {
         public static void Main(string[] args) { 
-        
-            Builder builder = new Builder("John Doe", 35, "Male", "Carpentry");
-            Sailor sailor = new Sailor("Alex Smith", 28, "Male", "Lieutenant");
-            Pilot pilot = new Pilot("Maria Johnson", 40, "Female", "Boeing 737");
 
-            Console.WriteLine("Builder Info:");
-            builder.DisplayInfo();
+            Passport passport = new Passport("AB123456", "Ivan Petrov", "01/01/1990", "Ukraine");
+            ForeignPassport foreignPassport = new ForeignPassport("CD789012", "Maria Ivanova", "15/06/1985", "Russia", "FX123456");
+            foreignPassport.AddVisa("Schengen Visa");
+            foreignPassport.AddVisa("USA Visa");
+            Console.WriteLine("Passport Info:");
+            passport.DisplayInfo();
             Console.WriteLine();
-
-            Console.WriteLine("Sailor Info:");
-            sailor.DisplayInfo();
-            Console.WriteLine();
-
-            Console.WriteLine("Pilot Info:");
-            pilot.DisplayInfo();
+            Console.WriteLine("Foreign Passport Info:");
+            foreignPassport.DisplayInfo();
         }
     }
 }
